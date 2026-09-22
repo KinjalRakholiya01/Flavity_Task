@@ -1,0 +1,18 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Composer Cc &amp; Bcc</h2>
+    <h3 class="oe_slogan">Cc and Bcc in the mail composer of sales orders, quotations and CRM leads</h3>
+    <p><b>Cc</b>: visible copy, shown in the Cc header to every recipient.<br/>
+       <b>Bcc</b>: blind copy, delivered through the SMTP envelope only; no header of any
+       received email mentions it.</p>
+    <h4>Workflow</h4>
+    <ol>
+      <li>Open "Send by Email" on a quotation / order, or the full composer on a lead.</li>
+      <li>Fill To, and add contacts in Cc and/or Bcc.</li>
+      <li>Send: one email goes out with To + Cc headers; Bcc contacts receive it invisibly.</li>
+      <li>Check what was sent in Settings &gt; Technical &gt; Email &gt; Emails (Cc and Bcc fields).</li>
+    </ol>
+    <p>No configuration. Depends only on <code>mail</code>. See README.md for details,
+       assumptions and limitations.</p>
+  </div>
+</section>
