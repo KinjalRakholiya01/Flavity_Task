@@ -45,6 +45,37 @@ Standard Odoo 19 vs this module:
 | Bcc | No field; `mail.mail` never passes Bcc to the mail server | Delivered through the SMTP envelope only |
 | Mail server | Supports Cc/Bcc headers, strips `Bcc` before sending | Unchanged (the module relies on it) |
 
+## Assumptions and limitations
+
+**Assumptions**
+
+- Emails are sent from a single record (quotation, sales order, CRM lead): the
+  composer's "comment" mode. Cc/Bcc are hidden for mass mailing and Log note.
+- "To" recipients are contacts (`res.partner`); a typed address becomes a
+  contact automatically, as in standard Odoo.
+- An outgoing mail server is configured; delivery is done by Odoo core.
+
+**Limitations**
+
+- Not wired for mass mailing / Email Marketing (one personalized email per
+  recipient would send the Bcc once per customer).
+- Contacts without an email address are skipped in Cc/Bcc, like in To.
+- The Bcc recipient sees no `bcc:` line: one email with Bcc only in the SMTP
+  envelope cannot leak by construction (a per-Bcc copy was tested and leaked).
+- Cc/Bcc are stored on the outgoing email (Settings > Technical > Email >
+  Emails), not on the chatter message.
+- Only the customer's email gets Cc/Bcc; internal follower notifications of
+  the same send do not.
+- No default Cc/Bcc per company or template; chosen per send.
+- Spam placement depends on the mail server setup (company identity,
+  Reply-To, sender reputation), not on this module.
+- Relies on three Odoo 19 core methods (`_action_send_mail_comment`,
+  `_notify_by_email_get_final_mail_values`, `_prepare_outgoing_list`); a
+  future change to them needs a re-check.
+- No automated tests included; tested manually with Gmail SMTP.
+- No new access rules: no new model, only fields on `mail.compose.message`
+  and `mail.mail`, already covered by the `mail` module's ACLs.
+
 ## Tested
 
 Odoo 19.0 Community (Docker), Gmail SMTP: quotation sent with To + Cc + Bcc.
